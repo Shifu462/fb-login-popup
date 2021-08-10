@@ -29,6 +29,7 @@
     ]
   },
   "include": [
+    "src/**/*.svg",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",

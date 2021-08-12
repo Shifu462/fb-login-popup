@@ -45,7 +45,6 @@
         loginPopup!: VPopup;
 
         openPopup() {
-            console.log('open');
             this.loginPopup.toggle(true);
         }
     }

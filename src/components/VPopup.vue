@@ -1,11 +1,13 @@
 <template>
-    <div class="popup-container" v-if="isVisible">
-        <div class="popup">
-            <slot />
-        </div>
+    <transition name="fade">
+        <div class="popup-container" v-show="isVisible">
+            <div class="popup">
+                <slot />
+            </div>
 
-        <div class="popup-overflow" @click="toggle(false)" />
-    </div>
+            <div class="popup-overflow" @click="toggle(false)" />
+        </div>
+    </transition>
 </template>
 
 <script lang="ts">
@@ -22,9 +24,18 @@
 </script>
 
 <style lang="scss" scoped>
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity 0.2s;
+    }
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 0;
+    }
+
     .popup-container,
     .popup-overflow {
-        position: absolute;
+        position: fixed;
         width: 100%;
         height: 100%;
     }
@@ -37,7 +48,7 @@
 
     .popup-overflow {
         backdrop-filter: blur(2px);
-        background-color: rgba($color: #000000, $alpha: .05);
+        background-color: rgba($color: #000000, $alpha: 0.05);
     }
 
     .popup {
@@ -48,5 +59,4 @@
 
         background: white;
     }
-
 </style>

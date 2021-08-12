@@ -5,13 +5,21 @@
         </section>
 
         <section class="form-section">
-            <label for="email">Email</label>
-            <input id="email" type="email" />
+            <VInput v-model="form.Email"
+                label="Email"
+                id="email"
+                type="email"
+                :validationError="emailValidationError"
+            />
 
-            <label for="password">Password</label>
-            <input id="password" type="password" />
+            <VInput v-model="form.Password"
+                label="Password"
+                id="password"
+                type="password"
+                :validationError="passwordValidationError"
+            />
 
-            <VButton @click="e => e.preventDefault()">Login</VButton>
+            <VButton @click="onLoginClick">Login</VButton>
         </section>
     </form>
 </template>
@@ -19,13 +27,39 @@
 <script lang="ts">
     import { Vue, Component } from 'vue-property-decorator';
     import VButton from '@/components/VButton.vue';
+    import VInput from '@/components/VInput.vue';
+    import { ValidationService } from '@/model/services';
+    import { User } from '@/model/types';
 
     @Component({
         components: {
             VButton,
-        }
+            VInput,
+        },
     })
     export default class LoginForm extends Vue {
+        validationService = new ValidationService();
+
+        form: User = {
+            Email: '',
+            Password: '',
+        };
+
+        emailValidationError: string | null = null;
+        passwordValidationError: string | null = null;
+
+        onLoginClick(evt: Event) {
+            evt.preventDefault();
+
+            if (!this.validate()) return;
+        }
+
+        validate() {
+            this.emailValidationError = this.validationService.validateEmail(this.form.Email);
+            this.passwordValidationError = this.validationService.validatePassword(this.form.Password);
+
+            return this.emailValidationError || this.passwordValidationError;
+        }
     }
 </script>
 
@@ -33,19 +67,6 @@
     .login-form {
         display: grid;
         grid-template-columns: 1fr 1fr;
-    }
-
-    label {
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    input {
-        background-color: #f7f7f7;
-        border: 0;
-
-        font-size: 18px;
-        height: 48px;
     }
 
     .user-icon-section {

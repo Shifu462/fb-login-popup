@@ -69,6 +69,14 @@
         grid-template-columns: 1fr 1fr;
     }
 
+    ::v-deep .input:not(:first-child) {
+        margin-top: 35px;
+    }
+
+    ::v-deep .primary {
+        margin-top: 25px;
+    }
+
     .user-icon-section {
         display: flex;
         justify-content: center;

@@ -22,21 +22,17 @@
                 type: String,
                 default: 'text',
             },
-            className: {
-                type: String,
-                default: '',
-            },
             validationError: {
                 type: [String, null] as PropType<string | null>,
                 default: null,
             },
         },
         render(h, context) {
-            const { id, type, label, validationError, value, className } = context.props;
+            const { id, type, label, validationError, value } = context.props;
             const inputListener = context.listeners.input as Function;
 
             return (
-                <section class={'input ' + className}>
+                <section class='input'>
                     {label && <label for={id}>{label}</label>}
                     <input
                         id={id}
@@ -68,6 +64,10 @@
     label {
         font-size: 14px;
         font-weight: bold;
+
+        & + input {
+            margin-top: 14px;
+        }
     }
 
     input {

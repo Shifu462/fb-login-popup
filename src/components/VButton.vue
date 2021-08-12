@@ -14,8 +14,10 @@
             },
         },
         render(h, context) {
+            const { type } = context.props;
+
             return (
-                <button {...{ on: context.listeners }} class={context.props.type}>
+                <button {...{ on: context.listeners }} class={type}>
                     {context.children[0]}
                 </button>
             );

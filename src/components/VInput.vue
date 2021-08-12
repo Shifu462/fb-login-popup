@@ -1,5 +1,6 @@
 <script lang="tsx">
-    import Vue from 'vue';
+    import Vue, { PropType } from 'vue';
+    import VInputError from './VInputError.vue';
 
     export default Vue.extend({
         name: 'VInput',
@@ -26,8 +27,8 @@
                 default: '',
             },
             validationError: {
-                type: String,
-                default: [],
+                type: [String, null] as PropType<string | null>,
+                default: null,
             },
         },
         render(h, context) {
@@ -47,9 +48,11 @@
                         }}
                     />
 
-                    <section>
-                        {validationError}
-                    </section>
+                    {validationError && (
+                        <section>
+                            <VInputError props={{ message: validationError! } as any} />
+                        </section>
+                    )}
                 </section>
             );
         },

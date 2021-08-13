@@ -1,9 +1,25 @@
-<template functional>
-    <span class="v-input-error" v-text="props.message" />
-</template>
+<script lang="tsx">
+    import Vue from 'vue';
+
+    export default Vue.extend({
+        name: 'VInputError',
+        functional: true,
+        props: {
+            message: {
+                type: String,
+                required: true,
+            },
+        },
+        render(h, context) {
+            const { message } = context.props;
+
+            return <span class="v-input-error">{message}</span>;
+        },
+    });
+</script>
 
 <style lang="scss">
-    // style scoped не работает для <template functional> :(.
+    // style scoped не работает :(.
 
     .v-input-error {
         display: flex;

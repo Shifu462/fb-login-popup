@@ -1,6 +1,7 @@
 <template>
     <form class="login-form">
         <section class="user-icon-section">
+            <!-- TODO: сделать css background-image -->
             <img src="@/assets/user-profile.svg" width="248" height="248" />
         </section>
 
@@ -28,8 +29,8 @@
     import { Vue, Component } from 'vue-property-decorator';
     import VButton from '@/components/VButton.vue';
     import VInput from '@/components/VInput.vue';
-    import { ValidationService } from '@/model/services';
-    import { User } from '@/model/types';
+    import { AuthService, ValidationService } from '@/model/services';
+    import { UserCredentials } from '@/model/types';
 
     @Component({
         components: {
@@ -38,9 +39,10 @@
         },
     })
     export default class LoginForm extends Vue {
-        validationService = new ValidationService();
+        readonly authService = new AuthService(this.$store);
+        readonly validationService = new ValidationService();
 
-        form: User = {
+        readonly form: UserCredentials = {
             Email: '',
             Password: '',
         };
@@ -52,6 +54,8 @@
             evt.preventDefault();
 
             if (!this.validate()) return;
+
+            this.authService.login(this.form);
         }
 
         validate() {

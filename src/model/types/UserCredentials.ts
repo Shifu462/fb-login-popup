@@ -1,6 +1,6 @@
 import { Email, Password } from '.';
 
-export type User = {
+export type UserCredentials = {
     Email: Email;
     Password: Password;
 };

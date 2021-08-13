@@ -2,6 +2,7 @@
     <div class="view">
         <VButton type="primary" @click="openPopup">
             <div class="btn-content">
+                <!-- TODO: сделать css background-image -->
                 <img src="@/assets/user-profile.svg" width="36" height="36" />
                 <span>Login</span>
             </div>
@@ -9,15 +10,17 @@
 
         <VButton type="success">
             <div class="btn-content">
+                <!-- TODO: сделать css background-image -->
                 <img src="@/assets/thumb-up.svg" width="36" height="36" />
-                <span>13</span>
+                <span v-text="loginCounts.Successful" />
             </div>
         </VButton>
 
         <VButton type="danger">
             <div class="btn-content">
+                <!-- TODO: сделать css background-image -->
                 <img src="@/assets/thumb-down.svg" width="36" height="36" />
-                <span>12</span>
+                <span v-text="loginCounts.Failed" />
             </div>
         </VButton>
 
@@ -29,6 +32,7 @@
 
 <script lang="ts">
     import { Vue, Component, Ref } from 'vue-property-decorator';
+    import { Counts } from '@/store';
     import VButton from '@/components/VButton.vue';
     import VPopup from '@/components/VPopup.vue';
     import LoginForm from './LoginForm.vue';
@@ -43,6 +47,10 @@
     export default class LoginView extends Vue {
         @Ref()
         loginPopup!: VPopup;
+
+        get loginCounts(): Counts {
+            return this.$store.state.LoginSuccessCounts;
+        }
 
         openPopup() {
             this.loginPopup.toggle(true);

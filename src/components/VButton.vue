@@ -16,8 +16,10 @@
         render(h, context) {
             const { type } = context.props;
 
+            const clickListenerExists = !!context.listeners.click;
+
             return (
-                <button {...{ on: context.listeners }} class={type}>
+                <button {...{ on: context.listeners }} class={type + (clickListenerExists ? ' clickable' : '')}>
                     {context.children[0]}
                 </button>
             );
@@ -38,7 +40,7 @@
         text-align: center;
         font-weight: bold;
 
-        &:hover {
+        &.clickable:hover {
             filter: brightness(85%);
         }
     }

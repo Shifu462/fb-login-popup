@@ -34,15 +34,15 @@ export class ValidationService {
         },
     ];
 
-    #validate<T extends string>(item: T, rules: ValidationRule<T>[]): string | null {
+    private validate<T extends string>(item: T, rules: ValidationRule<T>[]): string | null {
         return rules.find(x => !x.test(item))?.message || null;
     }
 
     public validateEmail(email: Email): string | null {
-        return this.#validate(email, this.#emailValidationRules);
+        return this.validate(email, this.#emailValidationRules);
     }
 
     public validatePassword(password: Password): string | null {
-        return this.#validate(password, this.#passwordValidationRules);
+        return this.validate(password, this.#passwordValidationRules);
     }
 }

@@ -26,9 +26,7 @@ export class AuthService {
     }
 
     public login(credentials: UserCredentials): LoginResult | null {
-        console.log('authService.login', credentials);
-
-        const loginResponse = this.#backendLogin(credentials);
+        const loginResponse = this.backendLogin(credentials);
 
         if (loginResponse.Code !== 200) {
             this.$store.commit('addLoginFail');
@@ -43,7 +41,7 @@ export class AuthService {
      * Будем считать, что примерно такой код будет на бэкенде.
      * Понятно, что оттуда придёт также токен, но для простоты будем ориентироваться по HttpCode.
     */
-    #backendLogin(credentials: UserCredentials): HttpResponse<LoginResult> {
+    private backendLogin(credentials: UserCredentials): HttpResponse<LoginResult> {
         // На бэкенде мы захотим повторно валидировать данные.
         const emailValidationError = this.#validationService.validateEmail(credentials.Email);
         const passwordValidationError = this.#validationService.validatePassword(credentials.Password);

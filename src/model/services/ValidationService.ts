@@ -15,18 +15,18 @@ export class ValidationService {
     #emailValidationRules: ValidationRule<Email>[] = [
         {
             test: email => !!email,
-            message: 'Email cannot be empty.',
+            message: 'This field is required.',
         },
         {
             test: email => EmailValidationRegex.test(email),
-            message: 'Incorrect email format.',
+            message: 'Not valid E-mail address.',
         },
     ];
 
     #passwordValidationRules: ValidationRule<Password>[] = [
         {
             test: password => !!password,
-            message: 'Password cannot be empty.',
+            message: 'This field is required.',
         },
         {
             test: password => !!(password.length > 3),

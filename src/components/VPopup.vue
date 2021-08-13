@@ -2,6 +2,8 @@
     <transition name="fade">
         <div class="popup-container" v-show="isVisible">
             <div class="popup">
+                <button class="close-popup-cross" @click="toggle(false)"></button>
+
                 <slot />
             </div>
 
@@ -58,5 +60,19 @@
         overflow: hidden;
 
         background: white;
+    }
+
+    .close-popup-cross {
+        cursor: pointer;
+
+        position: absolute;
+        top: 15px;
+        right: 15px;
+
+        width: 24px;
+        height: 24px;
+
+        border: none;
+        background: url('../assets/close-popup-cross.svg') no-repeat;
     }
 </style>

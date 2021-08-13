@@ -1,24 +1,25 @@
-# fb-login-popup
+# Попап с формой аутентификации
 
-## Project setup
+![image](./readme-assets/fb-login-popup.gif)
+
+## По классике:
+
+###  Setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run with hot-reload
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compile
 ```
 npm run build
 ```
 
-### Run your unit tests
+### Тесты (немножко)
 ```
 npm run test:unit
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

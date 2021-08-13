@@ -94,7 +94,8 @@
         }
     }
 
-    .login-popup {
-        border-radius: 3px;
+    ::v-deep .popup {
+        display: flex;
+        width: 750px;
     }
 </style>

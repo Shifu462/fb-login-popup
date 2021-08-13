@@ -89,11 +89,12 @@
 
 <style lang="scss" scoped>
     .login-form {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
     }
 
-    ::v-deep .input:not(:first-child) {
+    ::v-deep .v-input-container:not(:first-child) {
         margin-top: 35px;
     }
 
@@ -107,6 +108,9 @@
         align-items: center;
 
         background-color: #5988d9;
+        width: 50%;
+
+        background-size: 250px;
     }
 
     .form-section {
@@ -114,5 +118,6 @@
         flex-direction: column;
 
         padding: 48px 20px;
+        width: 50%;
     }
 </style>

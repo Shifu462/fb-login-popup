@@ -32,23 +32,22 @@
             const inputListener = context.listeners.input as Function;
 
             return (
-                <section class='input'>
+                <section class="v-input-container">
                     {label && <label for={id}>{label}</label>}
-                    <input
-                        id={id}
-                        type={type}
-                        value={value}
-                        on={{
-                            // Не нашёл тип ивента для change :(.
-                            change: (evt: Event) => inputListener((evt.target! as any).value),
-                        }}
-                    />
+                    <div class={'input-wrapper' + (validationError ? ' error-input-wrapper' : '')}>
+                        <input
+                            id={id}
+                            type={type}
+                            value={value}
+                            class={validationError ? 'input-error' : ''}
+                            on={{
+                                // Не нашёл тип ивента для change :(.
+                                change: (evt: Event) => inputListener((evt.target! as any).value),
+                            }}
+                        />
+                    </div>
 
-                    {validationError && (
-                        <section>
-                            <VInputError props={{ message: validationError! } as any} />
-                        </section>
-                    )}
+                    <section class="error-message">{validationError && <VInputError props={{ message: validationError! } as any} />}</section>
                 </section>
             );
         },
@@ -56,7 +55,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .input {
+    .v-input-container {
         display: flex;
         flex-direction: column;
     }
@@ -65,16 +64,42 @@
         font-size: 14px;
         font-weight: bold;
 
-        & + input {
+        & + .input-wrapper {
             margin-top: 14px;
         }
     }
 
     input {
         background-color: #f7f7f7;
-        border: 0;
+        border: 1px solid rgba(255, 255, 255, 0);
+        border-radius: 3px;
 
         font-size: 18px;
         height: 48px;
+        width: 100%;
+
+        &.input-error {
+            border-color: #db6969;
+        }
+    }
+
+    .error-input-wrapper {
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            right: 10px;
+            top: 15px;
+
+            width: 23px;
+            height: 23px;
+            background: url('../assets/error-exclamation.svg') no-repeat;
+        }
+    }
+
+    .error-message {
+        margin-top: 10px;
+        height: 16px;
     }
 </style>

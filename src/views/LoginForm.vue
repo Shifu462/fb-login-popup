@@ -120,4 +120,14 @@
         padding: 48px 20px;
         width: 50%;
     }
+
+    @media screen and (max-width: 800px) {
+        .login-form {
+            flex-direction: column;
+        }
+
+        .user-icon-section, .form-section {
+            width: initial;
+        }
+    }
 </style>

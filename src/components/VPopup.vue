@@ -59,6 +59,9 @@
         border-radius: 10px;
         overflow: hidden;
 
+        display: flex;
+        width: 750px;
+
         background: white;
     }
 
@@ -74,5 +77,17 @@
 
         border: none;
         background: url('../assets/close-popup-cross.svg') no-repeat;
+    }
+
+    @media screen and (max-width: 800px) {
+        .popup {
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .close-popup-cross {
+            background-image: url('../assets/close-popup-cross-mobile.svg');
+        }
     }
 </style>

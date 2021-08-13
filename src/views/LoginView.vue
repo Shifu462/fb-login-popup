@@ -101,9 +101,4 @@
             margin-left: 15px;
         }
     }
-
-    ::v-deep .popup {
-        display: flex;
-        width: 750px;
-    }
 </style>

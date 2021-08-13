@@ -3,41 +3,47 @@ import { Store } from 'vuex';
 import { UserCredentials } from '../types';
 import { ValidationService } from './ValidationService';
 
-type HttpCode = 400 | 200;
+const USERS_JSON: { Users: UserCredentials[] } = require('@/users.json');
 
-type LoginResponseBody = {
-    EmailError: string | null,
-    PasswordError: string | null,
-};
+type HttpCode = 200 | 400 | 403;
 
 type HttpResponse<TBody> = {
     Code: HttpCode,
     Body?: TBody,
 };
 
+export type LoginResult = {
+    CommonError: string | null,
+    EmailError: string | null,
+    PasswordError: string | null,
+};
+
 export class AuthService {
+    readonly #usersList = USERS_JSON.Users;
     readonly #validationService = new ValidationService();
 
     constructor(private readonly $store: Store<StoreState>) {
     }
 
-    public login(credentials: UserCredentials): boolean {
-        const loginResult = this.#backendLogin(credentials);
+    public login(credentials: UserCredentials): LoginResult | null {
+        console.log('authService.login', credentials);
 
-        if (loginResult.Code !== 200) {
+        const loginResponse = this.#backendLogin(credentials);
+
+        if (loginResponse.Code !== 200) {
             this.$store.commit('addLoginFail');
-            return false;
+            return loginResponse.Body || null;
         }
 
         this.$store.commit('addLoginSuccess');
-        return true;
+        return loginResponse.Body || null;
     }
 
     /**
      * Будем считать, что примерно такой код будет на бэкенде.
-     * Понятно, что оттуда придёт также токен, но для простоты 400 или 200.
+     * Понятно, что оттуда придёт также токен, но для простоты будем ориентироваться по HttpCode.
     */
-    #backendLogin(credentials: UserCredentials): HttpResponse<LoginResponseBody> {
+    #backendLogin(credentials: UserCredentials): HttpResponse<LoginResult> {
         // На бэкенде мы захотим повторно валидировать данные.
         const emailValidationError = this.#validationService.validateEmail(credentials.Email);
         const passwordValidationError = this.#validationService.validatePassword(credentials.Password);
@@ -46,13 +52,29 @@ export class AuthService {
             return {
                 Code: 400,
                 Body: {
+                    CommonError: null,
                     EmailError: emailValidationError,
                     PasswordError: passwordValidationError,
                 },
             };
         }
 
-        // TODO: сверять с users.json
+        const userWithSuchCredentialsExists = this.#usersList
+            .some(u =>
+                u.Email === credentials.Email
+                && u.Password === credentials.Password
+            );
+
+        if (!userWithSuchCredentialsExists) {
+            return {
+                Code: 403,
+                Body: {
+                    CommonError: 'Email or password incorrect.',
+                    EmailError: null,
+                    PasswordError: null,
+                }
+            }
+        }
 
         return {
             Code: 200,

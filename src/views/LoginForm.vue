@@ -10,17 +10,22 @@
                 label="Email"
                 id="email"
                 type="email"
-                :validationError="emailValidationError"
+                :validationError="loginResult && loginResult.EmailError"
             />
 
             <VInput v-model="form.Password"
                 label="Password"
                 id="password"
                 type="password"
-                :validationError="passwordValidationError"
+                :validationError="loginResult && loginResult.PasswordError"
             />
 
             <VButton @click="onLoginClick">Login</VButton>
+
+            <VInputError
+                v-if="loginResult && loginResult.CommonError"
+                :message="loginResult.CommonError"
+            />
         </section>
     </form>
 </template>
@@ -29,13 +34,15 @@
     import { Vue, Component } from 'vue-property-decorator';
     import VButton from '@/components/VButton.vue';
     import VInput from '@/components/VInput.vue';
-    import { AuthService, ValidationService } from '@/model/services';
+    import { AuthService, LoginResult, ValidationService } from '@/model/services';
     import { UserCredentials } from '@/model/types';
+    import VInputError from '@/components/VInputError.vue';
 
     @Component({
         components: {
             VButton,
             VInput,
+            VInputError,
         },
     })
     export default class LoginForm extends Vue {
@@ -47,22 +54,29 @@
             Password: '',
         };
 
-        emailValidationError: string | null = null;
-        passwordValidationError: string | null = null;
+        loginResult: LoginResult | null = null;
 
         onLoginClick(evt: Event) {
             evt.preventDefault();
 
-            if (!this.validate()) return;
+            if (!this.validate()) {
+                console.log(this.loginResult);
+                return;
+            }
 
-            this.authService.login(this.form);
+            this.loginResult = this.authService.login(this.form);
+            console.log(this.loginResult);
         }
 
         validate() {
-            this.emailValidationError = this.validationService.validateEmail(this.form.Email);
-            this.passwordValidationError = this.validationService.validatePassword(this.form.Password);
+            this.loginResult = {
+                CommonError: null,
+                EmailError: this.validationService.validateEmail(this.form.Email),
+                PasswordError: this.validationService.validatePassword(this.form.Password),
+            };
 
-            return this.emailValidationError || this.passwordValidationError;
+            return !this.loginResult.EmailError
+                && !this.loginResult.PasswordError;
         }
     }
 </script>

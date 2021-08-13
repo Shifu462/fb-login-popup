@@ -22,10 +22,13 @@
 
             <VButton @click="onLoginClick">Login</VButton>
 
-            <VInputError
-                v-if="loginResult && loginResult.CommonError"
-                :message="loginResult.CommonError"
-            />
+            <section v-if="loginResult && loginResult.CommonError"
+                class="common-error"
+            >
+                <VInputError
+                    :message="loginResult.CommonError"
+                />
+            </section>
         </section>
     </form>
 </template>
@@ -119,6 +122,10 @@
 
         padding: 48px 20px;
         width: 50%;
+    }
+
+    .common-error {
+        margin-top: 20px;
     }
 
     @media screen and (max-width: 800px) {

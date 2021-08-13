@@ -34,7 +34,7 @@
             width: 16px;
             height: 16px;
 
-            background-image: url('../assets/error.svg');
+            background: url('../assets/error.svg') no-repeat;
         }
     }
 </style>

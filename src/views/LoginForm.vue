@@ -65,7 +65,14 @@
             }
 
             this.loginResult = this.authService.login(this.form);
-            console.log(this.loginResult);
+            if (!(
+                this.loginResult?.CommonError
+                || this.loginResult?.EmailError
+                || this.loginResult?.PasswordError)
+            ) {
+                this.loginResult = null;
+                this.$emit('success');
+            }
         }
 
         validate() {
@@ -75,8 +82,7 @@
                 PasswordError: this.validationService.validatePassword(this.form.Password),
             };
 
-            return !this.loginResult.EmailError
-                && !this.loginResult.PasswordError;
+            return !this.loginResult.EmailError && !this.loginResult.PasswordError;
         }
     }
 </script>

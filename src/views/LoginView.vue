@@ -1,28 +1,30 @@
 <template>
     <div class="view">
-        <VButton type="primary" @click="openPopup">
-            <div class="btn-content">
-                <!-- TODO: сделать css background-image -->
-                <img src="@/assets/user-profile.svg" width="36" height="36" />
-                <span>Login</span>
-            </div>
-        </VButton>
+        <section class="buttons-container">
+            <VButton type="primary" @click="openPopup">
+                <div class="btn-content">
+                    <!-- TODO: сделать css background-image -->
+                    <img src="@/assets/user-profile.svg" width="36" height="36" />
+                    <span>Login</span>
+                </div>
+            </VButton>
 
-        <VButton type="success">
-            <div class="btn-content">
-                <!-- TODO: сделать css background-image -->
-                <img src="@/assets/thumb-up.svg" width="36" height="36" />
-                <span v-text="loginCounts.Successful" />
-            </div>
-        </VButton>
+            <VButton type="success">
+                <div class="btn-content">
+                    <!-- TODO: сделать css background-image -->
+                    <img src="@/assets/thumb-up.svg" width="36" height="36" />
+                    <span v-text="loginCounts.Successful" />
+                </div>
+            </VButton>
 
-        <VButton type="danger">
-            <div class="btn-content">
-                <!-- TODO: сделать css background-image -->
-                <img src="@/assets/thumb-down.svg" width="36" height="36" />
-                <span v-text="loginCounts.Failed" />
-            </div>
-        </VButton>
+            <VButton type="danger">
+                <div class="btn-content">
+                    <!-- TODO: сделать css background-image -->
+                    <img src="@/assets/thumb-down.svg" width="36" height="36" />
+                    <span v-text="loginCounts.Failed" />
+                </div>
+            </VButton>
+        </section>
 
         <VPopup class="login-popup" ref="loginPopup">
             <LoginForm v-if="!isSuccess" @success="onLoginSuccess" />
@@ -82,6 +84,12 @@
         align-items: center;
 
         height: 100%;
+    }
+
+    .buttons-container {
+        display: flex;
+        justify-content: space-between;
+        width: 350px;
     }
 
     .btn-content {
